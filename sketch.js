@@ -3,13 +3,41 @@ let maskImg = null;
 let renderCounter = 0;
 
 // change these three lines as appropiate
-let sourceFile = "input_new1.png";
-let maskFile = "mask_new1.png";
+let sourceFile1 = "images/input_1.png";
+let sourceFile2 = "images/input_2.png";
+let sourceFile3 = "images/input_3.png";
+
+let sourceFile1Img;
+let sourceFile2Img;
+let sourceFile3Img;
+
+let maskFile1 = "images/mask_1.png";
+let maskFile2 = "images/mask_2.png";
+let maskFile3 = "images/mask_3.png";
+
+let maskFile1Img;
+let maskFile2Img;
+let maskFile3Img;
+
 let outputFile = "output_2.png";
 
+let sourceFileImgArray;
+let maskFileImgArray;
+
 function preload() {
-    sourceImg = loadImage(sourceFile);
-    maskImg = loadImage(maskFile);
+    sourceFile1Img = loadImage(sourceFile1);
+    sourceFile2Img = loadImage(sourceFile2);
+    sourceFile3Img = loadImage(sourceFile3);
+
+    maskFile1Img = loadImage(maskFile1);
+    maskFile2Img = loadImage(maskFile2);
+    maskFile3Img = loadImage(maskFile3);
+
+    sourceFileImgArray = [sourceFile1Img,sourceFile2Img,sourceFile3Img];
+    maskFileImgArray = [maskFile1Img,maskFile2Img,maskFile3Img];
+
+    sourceImg = sourceFile1Img;
+    maskImg = maskFile1Img;
 }
 
 function setup() {
@@ -20,32 +48,20 @@ function setup() {
     imageMode(CENTER);
     noStroke();
     background(0, 0, 0);
-    sourceImg.loadPixels();
-    maskImg.loadPixels();
+    sourceFile1Img.loadPixels();
+    sourceFile2Img.loadPixels();
+    sourceFile3Img.loadPixels();
+    maskFile1Img.loadPixels();
+    maskFile2Img.loadPixels();
+    maskFile3Img.loadPixels();
 }
 
+let imageWidth = 1008;
+let imageHeight = 756;
+let chosenColorGradientIndex = 0;
+let chosenImageIndex = 0;
+
 let colorGradients = [
-    {
-        name: "aurora",
-        colorStops: [
-            { color: [5, 5, -17], factor: 0 },
-            { color: [48, 62, 17], factor: 0.6 },
-            { color: [63, -46, 14], factor: 0.8 },
-            { color: [31, -22, 1], factor: 0.85 },
-            { color: [20, 8, -27], factor: 1 },
-        ],
-        positions: [
-            {
-                x: 210,
-                y: 0
-            },
-            {
-                x: 190,
-                y: 200
-            },
-        ],
-        graphicsType: "streaks"
-    },
     {
         name: "sunset",
         colorStops: [
@@ -56,12 +72,73 @@ let colorGradients = [
         ],
         positions: [
             {
-                x: 150,
+                x: imageWidth/2 - 200,
                 y: -50
             },
             {
-                x: 350,
-                y: 250
+                x: imageWidth/2 + 200,
+                y: imageHeight + 50
+            },
+        ],
+        graphicsType: "stars"
+    },
+    {
+        name: "red moon",
+        colorStops: [
+            { color: [35, 45, 15], factor: 0 },
+            { color: [65, 65, 32], factor: 0.25 },
+            { color: [43, 52, -6], factor: 0.5 },
+            { color: [25, 40, -19], factor: 1 },
+        ],
+        positions: [
+            {
+                x: 0,
+                y: 0
+            },
+            {
+                x: 0,
+                y: imageHeight
+            },
+        ],
+        graphicsType: "streaks"
+    },
+    {
+        name: "aurora",
+        colorStops: [
+            { color: [5, 5, -17], factor: 0 },
+            { color: [48, 62, 17], factor: 0.4 },
+            { color: [63, -46, 14], factor: 0.8 },
+            { color: [31, -22, 1], factor: 0.85 },
+            { color: [20, 8, -27], factor: 1 },
+        ],
+        positions: [
+            {
+                x: imageWidth/2 + 20,
+                y: 0
+            },
+            {
+                x: imageWidth/2 - 20,
+                y: imageHeight/5*3
+            },
+        ],
+        graphicsType: "rings"
+    },
+    {
+        name: "midnight",
+        colorStops: [
+            { color: [19, -3, -46], factor: 0 },
+            { color: [68, 15, 27], factor: 0.2 },
+            { color: [17, 8, -27], factor: 0.4 },
+            { color: [5, 16, -27], factor: 1 },
+        ],
+        positions: [
+            {
+                x: imageWidth-440,
+                y: imageHeight/4*3
+            },
+            {
+                x: 440,
+                y: imageHeight/4
             },
         ],
         graphicsType: "stars"
@@ -76,21 +153,39 @@ let colorGradients = [
         ],
         positions: [
             {
-                x: 205,
-                y: 20
+                x: 50,
+                y: 0
             },
             {
-                x: 195,
-                y: 150
+                x: 0,
+                y: imageHeight/4*3
             },
         ],
         graphicsType: "rings"
     },
+    {
+        name: "spectrum",
+        colorStops: [
+            { color: [48, 68, 31], factor: 0 },
+            { color: [56, 46, 55], factor: 0.2 },
+            { color: [77, 1, 71], factor: 0.4 },
+            { color: [66, -56, 55], factor: 0.6 },
+            { color: [44, 11, -59], factor: 0.8 },
+            { color: [43, 60, -60], factor: 1 },
+        ],
+        positions: [
+            {
+                x: 0,
+                y: imageHeight
+            },
+            {
+                x: imageWidth,
+                y: 0
+            },
+        ],
+        graphicsType: "streaks"
+    },
 ]
-
-let imageWidth = 400;
-let imageHeight = 300;
-let chosenColorGradientIndex = 0;
 
 let ditherPattern = [
     [0, 8, 2, 10],
@@ -101,15 +196,18 @@ let ditherPattern = [
 
 function cyclePalette() {
     chosenColorGradientIndex += 1;
-    fill(0,0,0,127);
+    chosenImageIndex += 1;
+    sourceImg = sourceFileImgArray[chosenImageIndex % sourceFileImgArray.length];
+    maskImg = maskFileImgArray[chosenImageIndex % maskFileImgArray.length];
+    push();
+    fill(0,0,0,63);
     rect(0,0,imageWidth,imageHeight);
+    fill(255, 255, 255);
+    pop();
     setTimeout(() => {
         draw();
     }, 100);
 }
-
-
-
 
 function draw() {
     let totalPixels = imageWidth * imageHeight;
@@ -129,7 +227,7 @@ function draw() {
     offscreenBuffer.background(0);
     offscreenBuffer.fill(127);
     offscreenBuffer.stroke(63);
-    offscreenBuffer.strokeWeight(2);
+    offscreenBuffer.strokeWeight(3);
     offscreenBuffer.angleMode(DEGREES);
 
     // stars graphic type
@@ -139,7 +237,7 @@ function draw() {
             let starTranslateX = Math.random() * imageWidth;
             let starRotate = Math.random() * 90;
             let starTranslateY = Math.random() * imageHeight;
-            let starSizeOuter = map(Math.random() ** 10, 0, 1, 2, 10);
+            let starSizeOuter = map(Math.random() ** 10, 0, 1, 5, 15);
             let starSizeOuterInner = starSizeOuter/ 4;
             offscreenBuffer.translate(starTranslateX, starTranslateY);
             offscreenBuffer.rotate(starRotate);
@@ -164,7 +262,7 @@ function draw() {
         offscreenBuffer.rotate(30);
         let streakArray = [];
         let streakTotalWidth = 0;
-        let streakUnit = 5;
+        let streakUnit = 15;
         for (let i = 0; i < 10; i++) {
             let streakRandomWidth = Math.round(map(Math.random(), 0, 1, 1, 3)) * streakUnit;
             streakArray.push(streakRandomWidth);
@@ -189,11 +287,10 @@ function draw() {
                 offscreenBuffer.fill(0);
             }
             offscreenBuffer.circle(imageWidth/2,imageHeight,ringsSize);
-            ringsSize -= map(Math.random(),0,1,10,30);
+            ringsSize -= map(Math.random(),0,1,30,60);
             if (ringsSize < 0) {
                 break;
             }
-            console.log(i);
             offscreenBuffer.pop();
         }
     }
@@ -206,7 +303,7 @@ function draw() {
         let sourcePixel = sourceImg.get(x, y);
         let offscreenBufferPixel = offscreenBuffer.get(x, y)[0];
         
-        let randomVariationSpread = 10;
+        let randomVariationSpread = imageWidth/500;
         let randomVariationSpreadX = Math.random() * randomVariationSpread - randomVariationSpread/2;
         let randomVariationSpreadY = Math.random() * randomVariationSpread - randomVariationSpread/2;
         let randomVariationX = Math.min(Math.max(x + randomVariationSpreadX,1),imageWidth-1);
@@ -256,25 +353,31 @@ function draw() {
         //----------------------//
         
         // get average color of all color stops
-        let outputPixelGround = [0,0,0];
+        let averageColor = [0,0,0];
         for (let j = 0; j < chosenColorGradient.colorStops.length-1; j++) {
-            outputPixelGround[0] += chosenColorGradient.colorStops[j].color[0];
-            outputPixelGround[1] += chosenColorGradient.colorStops[j].color[1];
-            outputPixelGround[2] += chosenColorGradient.colorStops[j].color[2];
+            averageColor[0] += chosenColorGradient.colorStops[j].color[0];
+            averageColor[1] += chosenColorGradient.colorStops[j].color[1];
+            averageColor[2] += chosenColorGradient.colorStops[j].color[2];
         }
-        outputPixelGround[0] /= chosenColorGradient.colorStops.length;
-        outputPixelGround[1] /= chosenColorGradient.colorStops.length;
-        outputPixelGround[2] /= chosenColorGradient.colorStops.length;
+        averageColor[0] /= chosenColorGradient.colorStops.length;
+        averageColor[1] /= chosenColorGradient.colorStops.length;
+        averageColor[2] /= chosenColorGradient.colorStops.length;
 
         // convert from LAB to RGB
-        outputPixelGround = labToRgb(outputPixelGround);
+        averageColor = labToRgb(averageColor);
+
+
+        let posterisationLevel = 32;
+        let sourcePixelPosterised = [
+            Math.round(sourcePixel[0] / posterisationLevel) * posterisationLevel,
+            Math.round(sourcePixel[1] / posterisationLevel) * posterisationLevel,
+            Math.round(sourcePixel[2] / posterisationLevel) * posterisationLevel
+        ]
+
+        // console.log((sourcePixel[0]) + " " + (Math.round(sourcePixel[0] / posterisationLevel) * posterisationLevel))
         
         // multiply into source image
-        outputPixelGround = [
-            (sourcePixel[0]/255) * (outputPixelGround[0]/255) * 255,
-            (sourcePixel[1]/255) * (outputPixelGround[1]/255) * 255,
-            (sourcePixel[2]/255) * (outputPixelGround[2]/255) * 255
-        ]
+        outputPixelGround = blendMultiply(sourcePixelPosterised, averageColor);
         
         //-------------------//
         // mask manipulation //
@@ -303,14 +406,17 @@ function draw() {
     }
     
     // gradient guides
-    push();
-    fill(255,255,255);
-    stroke(0,0,0);
-    strokeWeight(1);
-    line(chosenColorGradient.positions[0].x,chosenColorGradient.positions[0].y,chosenColorGradient.positions[1].x,chosenColorGradient.positions[1].y)
-    circle(chosenColorGradient.positions[0].x,chosenColorGradient.positions[0].y,5);
-    circle(chosenColorGradient.positions[1].x,chosenColorGradient.positions[1].y,5);
-    pop();
+    let showGradientGuides = false;
+    if (showGradientGuides) {
+        push();
+        fill(255,255,255);
+        stroke(0,0,0);
+        strokeWeight(1);
+        line(chosenColorGradient.positions[0].x,chosenColorGradient.positions[0].y,chosenColorGradient.positions[1].x,chosenColorGradient.positions[1].y)
+        circle(chosenColorGradient.positions[0].x,chosenColorGradient.positions[0].y,5);
+        circle(chosenColorGradient.positions[1].x,chosenColorGradient.positions[1].y,5);
+        pop();
+    }
     
     noLoop();
     // saveArtworkImage(outputFile);
@@ -322,15 +428,19 @@ function keyTyped() {
     }
 }
 
-
 function blendAverage(base, blend, factor) {
     return [
-        // (base[0] * (factor) + blend[0] * (1 - factor)),
-        // (base[1] * (factor) + blend[1] * (1 - factor)),
-        // (base[2] * (factor) + blend[2] * (1 - factor))
-        (base[0] * (factor) + blend[0]),
-        (base[1] * (factor) + blend[1]),
-        (base[2] * (factor) + blend[2])
+        (base[0] * (factor) + blend[0] * (1 - factor)),
+        (base[1] * (factor) + blend[1] * (1 - factor)),
+        (base[2] * (factor) + blend[2] * (1 - factor))
+    ]
+}
+
+function blendMultiply(base, blend) {
+    return [
+        ((base[0]/255) * (blend[0]/255) * 255),
+        ((base[1]/255) * (blend[1]/255) * 255),
+        ((base[2]/255) * (blend[2]/255) * 255)
     ]
 }
 
