@@ -25,6 +25,8 @@ I explored a few ways to lessen the impact of the mask's inaccuracies. Firstly, 
 I tried using a box blur filter to smooth out the edges of the mask, but it was too resource-intensive to iterate over so many pixels. Instead, I opted for a dither pattern defined earlier in the code that blends over the colours in the mask, creating a bias in how much of the sky or ground is shown in any given pixel, alleviating the harsh transitions. The nature of the dither pattern also allows the vibrant graphics in the sky to subtly appear in the environment like a reflection, which helps with the next part of the process.
 
 To let the sky influence the environment, reinforcing my concept, my code iterates over each of the colour stops in the selected gradient preset, and averages the colours to produce a single colour. This colour is then multiplied into each pixel of the environment. The result tints the environment in a colour that reflects the sky in a similar way to how it would appear in real life. Furthermore, a posterisation effect is added to the environment, limiting its colour palette and integrating it with the dither pattern effect for a subtle pixel art feel.
+
+To add interactivity to the renderer, clicking the canvas will cycle through all six gradient palettes and all three image/mask pairs processed by the AI separation tool.
 ## Inspiration
 My inspiration for the kinds of effects and filters I used in my project the come from designs I have made in the past, specifically the stars and the pixel-art style.
 

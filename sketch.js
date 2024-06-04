@@ -2,19 +2,24 @@ let sourceImg = null;
 let maskImg = null;
 let renderCounter = 0;
 
-// change these three lines as appropiate
-let sourceFile1 = "images/input_1.png";
-let sourceFile2 = "images/input_2.png";
-let sourceFile3 = "images/input_3.png";
+// load all images to cycle through
+
+// let sourceFile1 = "images/input_1.png";
+// let sourceFile2 = "images/input_2.png";
+// let sourceFile3 = "images/input_3.png";
+// let maskFile1 = "images/mask_1.png";
+// let maskFile2 = "images/mask_2.png";
+// let maskFile3 = "images/mask_3.png";
+let sourceFile1 = "images/input_new1.png";
+let sourceFile2 = "images/input_new2.png";
+let sourceFile3 = "images/input_new3.png";
+let maskFile1 = "images/mask_new1.png";
+let maskFile2 = "images/mask_new2.png";
+let maskFile3 = "images/mask_new3.png";
 
 let sourceFile1Img;
 let sourceFile2Img;
 let sourceFile3Img;
-
-let maskFile1 = "images/mask_1.png";
-let maskFile2 = "images/mask_2.png";
-let maskFile3 = "images/mask_3.png";
-
 let maskFile1Img;
 let maskFile2Img;
 let maskFile3Img;
